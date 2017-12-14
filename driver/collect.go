@@ -217,6 +217,7 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 		if network {
 
 			for _, ifname := range qprocess.ifnames {
+				var dnetwork driver.NetworkInterface
 				dnetwork.Name = ifname
 
 				var bridges []string
