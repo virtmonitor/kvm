@@ -16,6 +16,7 @@ import (
 	"github.com/digitalocean/go-qemu/qmp"
 	gopsutil "github.com/shirou/gopsutil/process"
 	"github.com/virtmonitor/driver"
+	"github.com/virtmonitor/virNetTap"
 )
 
 type QemuProcess struct {
@@ -74,6 +75,13 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 				}
 			}
 		}
+	}
+
+	var procnet virNetTap.VirNetTap
+	nstat := make(map[string]virNetTap.InterfaceStats)
+
+	if nstat, err = procnet.GetAllVifStats(); err != nil {
+		return
 	}
 
 	var qprocess QemuProcess
@@ -207,7 +215,28 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 		}
 
 		if network {
-			//can not get this from qmp!
+
+			for _, ifname := range qprocess.ifnames {
+				dnetwork.Name = ifname
+
+				var bridges []string
+				if bridges, err = filepath.Glob(fmt.Sprintf("/sys/class/net/%s/upper_*", ifname)); err == nil && len(bridges) > 0 {
+					for _, bridge := range bridges {
+						dnetwork.Bridges = append(dnetwork.Bridges, strings.ToLower(strings.TrimPrefix(filepath.Base(bridge), "upper_")))
+					}
+				}
+
+				//TODO: parse out the mac address for interface from cmdline arguments?
+
+				if vifstat, ok := nstat[ifname]; ok {
+					dnetwork.RX = driver.NetworkIO{Bytes: vifstat.IN.Bytes, Packets: vifstat.IN.Pkts, Errors: vifstat.IN.Errs, Drops: vifstat.IN.Drops}
+					dnetwork.TX = driver.NetworkIO{Bytes: vifstat.OUT.Bytes, Packets: vifstat.OUT.Pkts, Errors: vifstat.OUT.Errs, Drops: vifstat.OUT.Drops}
+				}
+
+				domain.Interfaces = append(domain.Interfaces, dnetwork)
+
+			}
+
 		}
 
 		//log.Printf("Domain: %+v", domain)
