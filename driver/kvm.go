@@ -19,12 +19,8 @@ type KVM struct {
 	driver.Driver
 }
 
-func init() {
-	driver.RegisterDriver(&KVM{})
-}
-
 //Name Return driver name
-func (k *KVM) Name() string {
+func (k *KVM) Name() driver.DomainHypervisor {
 	return "KVM"
 }
 
