@@ -15,9 +15,7 @@ var (
 )
 
 //KVM KVM struct
-type KVM struct {
-	driver.Driver
-}
+type KVM struct{}
 
 //Name Return driver name
 func (k *KVM) Name() driver.DomainHypervisor {
