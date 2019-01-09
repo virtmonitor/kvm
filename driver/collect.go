@@ -37,7 +37,7 @@ type QemuCPU struct {
 
 // Collect Collect domain statistics
 func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.DomainID]*driver.Domain, err error) {
-	log.Println("KVM Collect()")
+	//log.Println("KVM Collect()")
 	domains = make(map[driver.DomainID]*driver.Domain)
 
 	var processes []*gopsutil.Process
