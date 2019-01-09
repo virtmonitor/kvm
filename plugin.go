@@ -23,4 +23,5 @@ func main() {
 		GRPCServer: plugin.DefaultGRPCServer,
 		Logger:     logger,
 	})
+
 }

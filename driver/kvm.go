@@ -6,7 +6,8 @@ var (
 	qemuBinays = []string{
 		"kvm",
 		"qemu-system-x86_64",
-		"qemu-system-x86",
+		"qemu-system-i386",
+		"qemu-system-arm",
 	}
 
 	qmpPaths = []string{
