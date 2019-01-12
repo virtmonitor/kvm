@@ -75,11 +75,11 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		} else {
 			continue
 		}
-		log.Println(arg)
 		switch arg {
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
 			continue
-		case "nodefaults", "daemonize", "S":
+		case "nodefaults", "daemonize", "S", "enable-kvm":
+			log.Println("Bool:", arg)
 			if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
 					_ = opt.BoolP("", arg, false, "")
@@ -88,6 +88,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 				}
 			}
 		default:
+			log.Println("String:", arg)
 			if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
 					_ = opt.StringP("", arg, "", "")
