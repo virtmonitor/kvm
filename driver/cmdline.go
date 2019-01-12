@@ -73,11 +73,19 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 			continue
 		case "nodefaults", "daemonize", "S":
 			if opt.Lookup(arg) == nil {
-				_ = opt.Bool(arg, false, "")
+				if len(arg) == 1 {
+					_ = opt.BoolP("", arg, false, "")
+				} else {
+					_ = opt.Bool(arg, false, "")
+				}
 			}
 		default:
 			if opt.Lookup(arg) == nil {
-				_ = opt.String(arg, "", "")
+				if len(arg) == 1 {
+					_ = opt.StringP("", arg, "", "")
+				} else {
+					_ = opt.String(arg, "", "")
+				}
 			}
 		}
 	}
