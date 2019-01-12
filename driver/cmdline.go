@@ -30,12 +30,14 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 
 	id = opt.Uint64("id", 0, "")
 	name = opt.String("name", "", "")
+	uuid = *opt.String("uuid", "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
 
-	var chardev, netdev, mon stringList
+	var chardev, netdev, mon, device stringList
 	opt.Var(&chardev, "chardev", "")
 	opt.Var(&netdev, "netdev", "")
+	opt.Var(&device, "device", "")
 	opt.Var(&mon, "mon", "")
 
 	var args2 []string
@@ -61,11 +63,15 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 
 	var str string
 
+	//{id:0 uuid: name:d9 qmp:unix:/var/lib/libvirt/qemu/d9.monitor ifnames:[]}
+
 	//parse uuid
-	for _, str = range strings.Split(*smbios, ",") {
-		if strings.HasPrefix(str, "uuid=") {
-			uuid = strings.TrimPrefix(str, "uuid=")
-			break
+	if uuid == "" {
+		for _, str = range strings.Split(*smbios, ",") {
+			if strings.HasPrefix(str, "uuid=") {
+				uuid = strings.TrimPrefix(str, "uuid=")
+				break
+			}
 		}
 	}
 
@@ -73,6 +79,11 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	for _, str = range strings.Split(netdev.String(), ",") {
 		if strings.HasPrefix(str, "ifname=") {
 			ifnames = append(ifnames, strings.TrimPrefix(str, "ifname="))
+		}
+	}
+	for _, str = range strings.Split(device.String(), ",") {
+		if strings.HasPrefix("str", "id=") {
+			ifnames = append(ifnames, "v"+strings.TrimPrefix(str, "id="))
 		}
 	}
 
