@@ -102,6 +102,7 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 			log.Printf("Could not locate QMP monitor for domain #%d", qprocess.id)
 			continue
 		} else {
+			log.Println("Dailing monitor")
 			fields := strings.Split(qprocess.qmp, ":")
 			if socket, err = qmp.NewSocketMonitor(fields[0], strings.Join(fields[1:], ":"), 500*time.Millisecond); err != nil {
 				log.Printf("Error opening socket monitor for domain #%d: %v", qprocess.id, err)
@@ -109,12 +110,14 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 			}
 		}
 
+		log.Println("Connecting monitor")
 		if err = socket.Connect(); err != nil {
 			log.Printf("Could not connect to qmp socket %s: %v", qprocess.qmp, err)
 			continue
 		}
 		defer socket.Disconnect()
 
+		log.Println("NewDomain")
 		var qdomain *qemu.Domain
 		if qdomain, err = qemu.NewDomain(socket, qprocess.name); err != nil {
 			log.Printf("Could not attach to domain from qmp monitor %s: %v", qprocess.qmp, err)
