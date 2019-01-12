@@ -79,34 +79,28 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
 			continue
 		case "nodefaults", "daemonize", "S", "enable-kvm":
-			log.Println("Bool:", arg)
 			if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
+					log.Printin("BoolP:", arg)
 					_ = opt.BoolP("", arg, false, "")
 				} else {
+					log.Println("Bool:", arg)
 					_ = opt.Bool(arg, false, "")
 				}
 			}
 		default:
-			log.Println("String:", arg)
 			if arg == "m" {
 				opt.VisitAll(func(f *pflag.Flag) {
 					log.Printf("\r\n%+v\r\n", f)
 				})
 			}
 			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
+				log.Println("StringP:", arg)
 				_ = opt.StringP("", arg, "", "")
 			} else if opt.Lookup(arg) == nil {
+				log.Println("String:", arg)
 				_ = opt.String(arg, "", "")
 			}
-
-			/*if opt.Lookup(arg) == nil {
-				if len(arg) == 1 {
-					_ = opt.StringP("", arg, "", "")
-				} else {
-					_ = opt.String(arg, "", "")
-				}
-			}*/
 
 		}
 	}
