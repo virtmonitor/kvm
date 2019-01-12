@@ -57,11 +57,10 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 				continue
 			}
 
-			log.Println(cmdline[0])
-
-			if !filepath.HasPrefix(cmdline[0], "/usr/bin") || !filepath.HasPrefix(cmdline[0], "/bin") {
-				continue
-			}
+			//log.Println(cmdline[0])
+			//if !filepath.HasPrefix(cmdline[0], "/usr/bin") || !filepath.HasPrefix(cmdline[0], "/bin") {
+			//	continue
+			//}
 
 			base := filepath.Base(cmdline[0])
 			for _, binary := range qemuBinays {
