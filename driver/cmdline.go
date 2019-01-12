@@ -38,7 +38,18 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt.Var(&netdev, "netdev", "")
 	opt.Var(&mon, "mon", "")
 
-	err = opt.Parse(args[1:])
+	var args2 []string
+	for _, arg := range args {
+		if strings.HasPrefix(arg, "--") {
+			args2 = append(args2, arg)
+		} else if strings.HasPrefix(arg, "-") {
+			args2 = append(args2, "-"+arg)
+		} else {
+			args2 = append(args2, arg)
+		}
+	}
+
+	err = opt.Parse(args2[1:])
 	if err != nil {
 		if err == pflag.ErrHelp {
 			err = nil
