@@ -30,7 +30,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
 
 	id = opt.Uint64("id", 0, "")
-	name = opt.String("name", "", "")
+	name = opt.StringP("", "name" "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
 
@@ -39,16 +39,19 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt.Var(&netdev, "netdev", "")
 	opt.Var(&mon, "mon", "")
 
-	var args2 []string
+	//var acc bool
+	//opt.Bool(&acc, false, "")
 
-	for _, arg := range args {
-		if strings.ToLower(arg) == "-enable-kvm" {
-			continue
-		}
-		args2 = append(args2, arg)
-	}
+	//var args2 []string
 
-	args = args2
+	//for _, arg := range args {
+	//	if strings.ToLower(arg) == "-enable-kvm" {
+	//		continue
+	//	}
+	//	args2 = append(args2, arg)
+	//}
+
+	//args = args2
 
 	for _, arg := range args {
 		if !strings.HasPrefix(arg, "-") {
