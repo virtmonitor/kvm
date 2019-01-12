@@ -81,7 +81,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		case "nodefaults", "daemonize", "S", "enable-kvm":
 			if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
-					log.Printin("BoolP:", arg)
+					log.Println("BoolP:", arg)
 					_ = opt.BoolP("", arg, false, "")
 				} else {
 					log.Println("Bool:", arg)
