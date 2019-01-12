@@ -32,6 +32,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	name = opt.String("name", "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
+	_ = opt.String("help", "", "")
 
 	var chardev, netdev, mon stringList
 	opt.Var(&chardev, "chardev", "")
