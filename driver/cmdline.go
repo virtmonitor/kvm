@@ -1,7 +1,6 @@
 package kvm
 
 import (
-	"flag"
 	"fmt"
 	"strings"
 
@@ -100,11 +99,10 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		}
 	}*/
 
-	if err = opt.Parse(args[1:]); err != nil {
-		if err != flag.ErrHelp {
-			err = fmt.Errorf("Error parsing %s command line arguments: %v", args[0], err)
-			return
-		}
+	err = opt.Parse(args[1:])
+	if err != nil && err != pflag.ErrHelp {
+		err = fmt.Errorf("Error parsing %s command line arguments: %v", args[0], err)
+		return
 	}
 
 	var str string
