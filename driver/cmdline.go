@@ -60,6 +60,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 			//longhand with shorthand delim
 			args2 = append(args2, "-"+arg)
 		}
+		args2 = append(args2, arg)
 	}
 
 	args = args2
