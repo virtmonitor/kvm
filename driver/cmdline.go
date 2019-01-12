@@ -89,13 +89,20 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 			}
 		default:
 			log.Println("String:", arg)
-			if opt.Lookup(arg) == nil {
+			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
+				_ = opt.StringP("", arg, "", "")
+			} else if opt.Lookup(arg) == nil {
+				_ = opt.String(arg, "", "")
+			}
+
+			/*if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
 					_ = opt.StringP("", arg, "", "")
 				} else {
 					_ = opt.String(arg, "", "")
 				}
-			}
+			}*/
+
 		}
 	}
 
