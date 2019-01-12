@@ -29,8 +29,6 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
 
-	opt.SetI
-
 	id = opt.Uint64("id", 0, "")
 	name = opt.String("name", "", "")
 	qmp = opt.String("qmp", "", "")
