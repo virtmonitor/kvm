@@ -97,7 +97,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 			}
 			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
 				log.Println("StringP:", arg)
-				_ = opt.StringP("", arg, "", "")
+				_ = opt.String(arg, "", "")
 			} else if opt.Lookup(arg) == nil {
 				log.Println("String:", arg)
 				_ = opt.String(arg, "", "")
