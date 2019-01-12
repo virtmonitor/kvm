@@ -39,11 +39,19 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt.Var(&netdev, "netdev", "")
 	opt.Var(&mon, "mon", "")
 
+	var args2 []string
+
 	for _, arg := range args {
-		if !strings.HasPrefix(arg, "-") {
+		if strings.ToLower(arg) == "-enable-kvm" {
 			continue
 		}
-		if strings.ToLower(arg) == "-enable-kvm" {
+		args2 = append(args2, arg)
+	}
+
+	args = args2
+
+	for _, arg := range args {
+		if !strings.HasPrefix(arg, "-") {
 			continue
 		}
 		arg = strings.TrimPrefix(arg, "-")
