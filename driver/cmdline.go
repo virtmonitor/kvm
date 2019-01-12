@@ -38,68 +38,6 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt.Var(&netdev, "netdev", "")
 	opt.Var(&mon, "mon", "")
 
-	// pflag does not like longhand (--) flags having a shorthand delim (-)
-
-	/*var args2 []string
-
-	for _, arg := range args {
-		if strings.HasPrefix(arg, "--") {
-			args2 = append(args2, arg)
-			continue
-		}
-		if strings.HasPrefix(arg, "-") {
-			if len(arg) == 2 {
-				//shorthand
-				args2 = append(args2, arg)
-				continue
-			}
-			//longhand with shorthand delim
-			args2 = append(args2, "-"+arg)
-			continue
-		}
-		args2 = append(args2, arg)
-	}
-
-	args = args2
-
-	for _, arg := range args {
-		if strings.HasPrefix(arg, "--") {
-			arg = strings.TrimPrefix(arg, "--")
-		} else if strings.HasPrefix(arg, "-") {
-			arg = strings.TrimPrefix(arg, "-")
-		} else {
-			continue
-		}
-		switch arg {
-		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
-			continue
-		case "nodefaults", "daemonize", "S", "enable-kvm":
-			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
-				log.Println("BoolP:", arg)
-				_ = opt.BoolP("", arg, false, "")
-			} else if opt.Lookup(arg) == nil {
-				log.Println("Bool:", arg)
-				_ = opt.Bool(arg, false, "")
-			}
-		case "m":
-			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
-				log.Println("IntP:", arg)
-				_ = opt.IntP("", arg, 0, "")
-			} else if opt.Lookup(arg) == nil {
-				log.Println("Int:", arg)
-				_ = opt.Int(arg, 0, "")
-			}
-		default:
-			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
-				log.Println("StringP:", arg)
-				_ = opt.StringP("", arg, "", "")
-			} else if opt.Lookup(arg) == nil {
-				log.Println("String:", arg)
-				_ = opt.String(arg, "", "")
-			}
-		}
-	}*/
-
 	err = opt.Parse(args[1:])
 	if err != nil {
 		if err == pflag.ErrHelp {
@@ -181,16 +119,3 @@ func toMap(entry, delim1, delim2 string) map[string]string {
 
 	return m
 }
-
-/*func parseCmdline2(args []string) (id *uint64, name, qmp *string, uuid string, ifnames []string, err error) {
-
-	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
-
-	for _, arg := range args[1:] {
-		if string.HasPrefix(arg, "--") {
-
-		}
-	}
-
-	return
-}*/

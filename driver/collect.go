@@ -77,6 +77,8 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 					qprocess.qmp = *qmp
 					qprocess.ifnames = ifnames
 
+					log.Printf("qprocess: %+v\r\n", qprocess)
+
 					qprocesses = append(qprocesses, qprocess)
 					break
 				}
