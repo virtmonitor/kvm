@@ -5,6 +5,7 @@ package kvm
 import (
 	"flag"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/spf13/pflag"
@@ -67,6 +68,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		if !strings.HasPrefix(arg, "-") {
 			continue
 		}
+		log.Println(arg)
 		arg = strings.TrimPrefix(arg, "-")
 		switch arg {
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
