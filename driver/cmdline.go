@@ -29,8 +29,10 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
 
+	opt.SetI
+
 	id = opt.Uint64("id", 0, "")
-	name = opt.StringP("name", "name", "", "")
+	name = opt.String("name", "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
 
@@ -42,16 +44,25 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	//var acc bool
 	//opt.Bool(&acc, false, "")
 
-	//var args2 []string
+	// pflag does not like longhand (--) flags having a shorthand delim (-)
 
-	//for _, arg := range args {
-	//	if strings.ToLower(arg) == "-enable-kvm" {
-	//		continue
-	//	}
-	//	args2 = append(args2, arg)
-	//}
+	var args2 []string
 
-	//args = args2
+	for _, arg := range args {
+		if strings.HasPrefix("--") {
+			args2 = append(args2, arg)
+		}
+		if strings.HasPrefix("-") {
+			if len(arg) == 2 {
+				//shorthand
+				args2 = append(args2, arg)
+			}
+			//longhand with shorthand delim
+			args2 = append(args2, "-"+arg)
+		}
+	}
+
+	args = args2
 
 	for _, arg := range args {
 		if !strings.HasPrefix(arg, "-") {
