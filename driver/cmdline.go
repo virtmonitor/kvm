@@ -26,13 +26,12 @@ func (l *stringList) Type() string {
 func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, ifnames []string, err error) {
 
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
-	opt.ParseErrorsWhitelist = pflag.ParseErrorsWhitelist{UnknownFlags: true}
+	//opt.ParseErrorsWhitelist = pflag.ParseErrorsWhitelist{UnknownFlags: true}
 
 	id = opt.Uint64("id", 0, "")
 	name = opt.String("name", "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
-	_ = opt.String("help", "", "")
 
 	var chardev, netdev, mon stringList
 	opt.Var(&chardev, "chardev", "")
