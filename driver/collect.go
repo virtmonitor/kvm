@@ -103,7 +103,7 @@ func (k *KVM) Collect(cpu bool, block bool, network bool) (domains map[driver.Do
 			continue
 		} else {
 			fields := strings.Split(qprocess.qmp, ":")
-			if socket, err = qmp.NewSocketMonitor(fields[0], strings.Join(fields[1:], ":"), 100*time.Millisecond); err != nil {
+			if socket, err = qmp.NewSocketMonitor(fields[0], strings.Join(fields[1:], ":"), 2000*time.Millisecond); err != nil {
 				log.Printf("Error opening socket monitor for domain #%d: %v", qprocess.id, err)
 				continue
 			}
