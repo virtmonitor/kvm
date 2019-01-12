@@ -90,10 +90,10 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 			}
 		default:
 			if arg == "m" {
-				log.Println("len:", len(arg))
 				opt.VisitAll(func(f *pflag.Flag) {
-					log.Printf("\r\n%+v\r\n", f)
+					log.Printf("%s:%s\r\n", f.Name, f.Shorthand)
 				})
+				log.Printf("%+v => %v\r\n", opt.Lookup(arg), opt.ShorthandLookup(arg))
 			}
 			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
 				log.Println("StringP:", arg)
