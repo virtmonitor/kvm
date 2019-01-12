@@ -50,14 +50,17 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	for _, arg := range args {
 		if strings.HasPrefix(arg, "--") {
 			args2 = append(args2, arg)
+			continue
 		}
 		if strings.HasPrefix(arg, "-") {
 			if len(arg) == 2 {
 				//shorthand
 				args2 = append(args2, arg)
+				continue
 			}
 			//longhand with shorthand delim
 			args2 = append(args2, "-"+arg)
+			continue
 		}
 		args2 = append(args2, arg)
 	}
