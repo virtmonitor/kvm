@@ -68,10 +68,14 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	args = args2
 
 	for _, arg := range args {
-		if !strings.HasPrefix(arg, "-") {
+		if strings.HasPrefix(arg, "--") {
+			arg = strings.TrimPrefix(arg, "--")
+		} else if strings.HasPrefix(arg, "-") {
+			arg = strings.TrimPrefix(arg, "-")
+		} else {
 			continue
 		}
-		arg = strings.TrimPrefix(arg, "-")
+		log.Println(arg)
 		switch arg {
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
 			continue
@@ -84,7 +88,6 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 				}
 			}
 		default:
-			log.Println(arg)
 			if opt.Lookup(arg) == nil {
 				if len(arg) == 1 {
 					_ = opt.StringP("", arg, "", "")
