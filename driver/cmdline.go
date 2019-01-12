@@ -100,9 +100,12 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	}*/
 
 	err = opt.Parse(args[1:])
-	if err != nil && err != pflag.ErrHelp {
-		err = fmt.Errorf("Error parsing %s command line arguments: %v", args[0], err)
-		return
+	if err != nil {
+		if err = pflag.ErrHelp {
+			log.Println("ErrHelp blah blah")
+		} else {
+			return
+		}
 	}
 
 	var str string
