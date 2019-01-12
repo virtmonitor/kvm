@@ -1,11 +1,8 @@
-// +build !windows
-
 package kvm
 
 import (
 	"flag"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/spf13/pflag"
@@ -29,6 +26,7 @@ func (l *stringList) Type() string {
 func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, ifnames []string, err error) {
 
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
+	opt.ParseErrorsWhitelist = pflag.ParseErrorsWhitelist{UnknownFlags: true}
 
 	id = opt.Uint64("id", 0, "")
 	name = opt.String("name", "", "")
@@ -40,12 +38,9 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt.Var(&netdev, "netdev", "")
 	opt.Var(&mon, "mon", "")
 
-	//var acc bool
-	//opt.Bool(&acc, false, "")
-
 	// pflag does not like longhand (--) flags having a shorthand delim (-)
 
-	var args2 []string
+	/*var args2 []string
 
 	for _, arg := range args {
 		if strings.HasPrefix(arg, "--") {
@@ -103,7 +98,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 				_ = opt.String(arg, "", "")
 			}
 		}
-	}
+	}*/
 
 	if err = opt.Parse(args[1:]); err != nil {
 		if err == flag.ErrHelp {
@@ -184,3 +179,16 @@ func toMap(entry, delim1, delim2 string) map[string]string {
 
 	return m
 }
+
+/*func parseCmdline2(args []string) (id *uint64, name, qmp *string, uuid string, ifnames []string, err error) {
+
+	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
+
+	for _, arg := range args[1:] {
+		if string.HasPrefix(arg, "--") {
+
+		}
+	}
+
+	return
+}*/
