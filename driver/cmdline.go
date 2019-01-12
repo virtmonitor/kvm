@@ -47,10 +47,10 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	var args2 []string
 
 	for _, arg := range args {
-		if strings.HasPrefix("--") {
+		if strings.HasPrefix(arg, "--") {
 			args2 = append(args2, arg)
 		}
-		if strings.HasPrefix("-") {
+		if strings.HasPrefix(arg, "-") {
 			if len(arg) == 2 {
 				//shorthand
 				args2 = append(args2, arg)
