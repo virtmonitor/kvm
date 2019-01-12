@@ -30,7 +30,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	opt := pflag.NewFlagSet(args[0], pflag.ContinueOnError)
 
 	id = opt.Uint64("id", 0, "")
-	name = opt.StringP("", "name" "", "")
+	name = opt.StringP("name", "name", "", "")
 	qmp = opt.String("qmp", "", "")
 	smbios := opt.String("smbios", "", "")
 
