@@ -43,6 +43,9 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		if !strings.HasPrefix(arg, "-") {
 			continue
 		}
+		if strings.ToLower(arg) == "-enable-kvm" {
+			continue
+		}
 		arg = strings.TrimPrefix(arg, "-")
 		switch arg {
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
