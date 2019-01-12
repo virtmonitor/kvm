@@ -79,30 +79,29 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
 			continue
 		case "nodefaults", "daemonize", "S", "enable-kvm":
-			if opt.Lookup(arg) == nil {
-				if len(arg) == 1 {
-					log.Println("BoolP:", arg)
-					_ = opt.BoolP("", arg, false, "")
-				} else {
-					log.Println("Bool:", arg)
-					_ = opt.Bool(arg, false, "")
-				}
+			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
+				log.Println("BoolP:", arg)
+				_ = opt.BoolP("", arg, false, "")
+			} else if opt.Lookup(arg) == nil {
+				log.Println("Bool:", arg)
+				_ = opt.Bool(arg, false, "")
+			}
+		case "m":
+			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
+				log.Println("IntP:", arg)
+				_ = opt.IntP("", arg, 0, "")
+			} else if opt.Lookup(arg) == nil {
+				log.Println("Int:", arg)
+				_ = opt.Int(arg, 0, "")
 			}
 		default:
-			if arg == "m" {
-				opt.VisitAll(func(f *pflag.Flag) {
-					log.Printf("%s:%s\r\n", f.Name, f.Shorthand)
-				})
-				log.Printf("%+v => %v\r\n", opt.Lookup(arg), opt.ShorthandLookup(arg))
-			}
 			if len(arg) == 1 && opt.ShorthandLookup(arg) == nil {
 				log.Println("StringP:", arg)
-				_ = opt.String(arg, "", "")
+				_ = opt.StringP("", arg, "", "")
 			} else if opt.Lookup(arg) == nil {
 				log.Println("String:", arg)
 				_ = opt.String(arg, "", "")
 			}
-
 		}
 	}
 
