@@ -102,6 +102,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 	err = opt.Parse(args[1:])
 	if err != nil {
 		if err = pflag.ErrHelp {
+			err = nil
 			log.Println("ErrHelp blah blah")
 		} else {
 			return
