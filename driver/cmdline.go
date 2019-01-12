@@ -63,8 +63,6 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 
 	var str string
 
-	//{id:0 uuid: name:d9 qmp:unix:/var/lib/libvirt/qemu/d9.monitor ifnames:[]}
-
 	//parse uuid
 	if uuid == "" {
 		for _, str = range strings.Split(*smbios, ",") {
