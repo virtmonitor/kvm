@@ -71,7 +71,7 @@ func parseCmdline(args []string) (id *uint64, name, qmp *string, uuid string, if
 		switch arg {
 		case "id", "name", "qmp", "mon", "chardev", "netdev", "smbios":
 			continue
-		case "nodefaults", "daemonize":
+		case "nodefaults", "daemonize", "S":
 			if opt.Lookup(arg) == nil {
 				_ = opt.Bool(arg, false, "")
 			}
